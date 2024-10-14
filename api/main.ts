@@ -1,7 +1,7 @@
-import { Application, Router } from "@oak/oak";
-import { oakCors } from "@tajpouria/cors";
+// import { Application, Router } from "@oak/oak";
+// import { oakCors } from "@tajpouria/cors";
 import data from "./data.json" with { type: "json" };
-import routeStaticFilesFrom from "./util/routeStaticFilesFrom.ts";
+// import routeStaticFilesFrom from "./util/routeStaticFilesFrom.ts";
 // @deno-types="@types/express"
 import express from "npm:express"; // Sử dụng npm: prefix
 
