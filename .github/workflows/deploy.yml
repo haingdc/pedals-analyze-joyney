@@ -40,3 +40,4 @@ jobs:
           project: "pedals-analyze-joyney"
           entrypoint: "main.ts"
           root: "./api"
+          build: "dist"
