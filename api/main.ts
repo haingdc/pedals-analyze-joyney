@@ -3,7 +3,8 @@ import { oakCors } from "@tajpouria/cors";
 import data from "./data.json" with { type: "json" };
 import routeStaticFilesFrom from "./util/routeStaticFilesFrom.ts";
 // @deno-types="@types/express"
-import express from "express";
+import express from "npm:express"; // Sử dụng npm: prefix
+
 
 // const router = new Router();
 
