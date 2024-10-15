@@ -39,4 +39,4 @@ jobs:
         with:
           project: "pedals-analyze-joyney"
           entrypoint: "https://deno.land/std@0.217.0/http/file_server.ts"
-          root: "./dist"
+          root: "dist"
