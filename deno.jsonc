@@ -1,7 +1,6 @@
 {
   "tasks": {
     "dev": "deno run -A npm:vite --port 8080",
-    "build-deprecated": "tsc -b && vite build",
     "build": "vite build",
     "lint": "eslint .",
     "preview": "vite preview"
@@ -11,6 +10,7 @@
     "@/lib/utils": "./src/lib/utils.ts",
     "@/ui/": "./src/components/ui/",
     "@components/": "./src/components/",
+    "@pedal-pedal/types": "jsr:@pedal-pedal/types@^0.1.1",
     "@std/dotenv": "jsr:@std/dotenv@^0.225.2",
     "@std/path": "jsr:@std/path@^1.0.6",
     "@tajpouria/cors": "jsr:@tajpouria/cors@^1.2.1"

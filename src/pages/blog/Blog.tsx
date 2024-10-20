@@ -12,40 +12,9 @@ import {
 } from "@components/ui/chart.tsx"
 import Layout from "@components/Layout/index.tsx"
 import { getBlogData } from "../../api/blog.ts"
-
-console.log("inspect.env", import.meta.env.VITE_BACKEND_DOMAIN)
-
-const chartDataDeprecated = [
-  { month: "January", desktop: 186, mobile: 80 },
-  { month: "February", desktop: 305, mobile: 200 },
-  { month: "March", desktop: 237, mobile: 120 },
-  { month: "April", desktop: 73, mobile: 190 },
-  { month: "May", desktop: 209, mobile: 130 },
-  { month: "June", desktop: 214, mobile: 140 },
-]
-
-const chartData = [
-  {
-    "date": "2024-10",
-    "count": 3,
-    "month": "October",
-  },
-  {
-    "date": "2024-09",
-    "count": 5,
-    "month": "September",
-  },
-]
+import { CountPostsByMonth } from "@pedal-pedal/types"
 
 const chartConfig = {
-  desktop: {
-    label: "Desktop",
-    color: "#2563eb",
-  },
-  mobile: {
-    label: "Mobile",
-    color: "#60a5fa",
-  },
   count: {
     label: "Số bài viết của blog pedal-pedal",
     color: "#f59e0b",
@@ -53,14 +22,14 @@ const chartConfig = {
 } satisfies ChartConfig
 
 export function Component() {
-  const [chartData, setChartData] = useState<any>(null)
+  const [chartData, setChartData] = useState<CountPostsByMonth>(null)
   useEffect(() => {
     ;(async () => {
       const result = await getBlogData()
       if (result.ok) {
         setChartData(result.val)
       } else {
-        console.log("inspect.Error:", result.err)
+        console.log("inspect.Error:", result.val)
       }
     })()
   }, [])
