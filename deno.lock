@@ -19,6 +19,7 @@
     "npm:dotenv@^16.4.5": "16.4.5",
     "npm:eslint-plugin-react-hooks@^5.1.0-rc.0": "5.1.0-rc-fb9a90fa48-20240614_eslint@9.12.0",
     "npm:eslint-plugin-react-refresh@~0.4.12": "0.4.12_eslint@9.12.0",
+    "npm:eslint@9.12.0": "9.12.0",
     "npm:eslint@^9.11.1": "9.12.0",
     "npm:globals@^15.9.0": "15.11.0",
     "npm:lucide-react@0.453": "0.453.0_react@18.3.1",
