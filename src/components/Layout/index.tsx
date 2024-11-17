@@ -1,29 +1,28 @@
-import './Layout.css';
+import Header from '@components/Layout/Header.tsx'
+import '@components/Layout/Layout.css'
+import { useConfig } from '@components/App/Config/utils.tsx'
+import Menu from '@components/Layout/Menu.tsx'
 
-const App = ({ children }) => {
+type AppLayoutProps = {
+  children: React.ReactNode
+}
+
+const AppLayout: React.FunctionComponent<AppLayoutProps> = ({ children }) => {
+  const config = useConfig()
   return (
-    <div className="container">
-      <header className="header">
-        <h1>Phân Tích Dữ Liệu</h1>
-        <nav className="nav">
-          <ul>
-            <li>Trang Chủ</li>
-            <li>Giới Thiệu</li>
-            <li>Liên Hệ</li>
-          </ul>
-        </nav>
-      </header>
-      <main className="main-content">
-        {children}
-        {/* <section className="analysis">
-          <h2>Phân Tích Chi Tiết</h2>
-        </section> */}
-      </main>
-      <footer className="footer">
-        <p>© 2024 Phân Tích Dữ Liệu</p>
-      </footer>
-    </div>
-  );
-};
+    <>
+      {config.isOpen && <Menu />}
+      <div className='container'>
+        <Header />
+        <main className='main-content'>{children}</main>
+        <footer className='footer'>
+          <div className='content'>
+            <p>© 2024 Phân Tích Dữ Liệu</p>
+          </div>
+        </footer>
+      </div>
+    </>
+  )
+}
 
-export default App;
+export default AppLayout

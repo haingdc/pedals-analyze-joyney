@@ -1,0 +1,7 @@
+@layer my-components {
+  .app-header {
+    display: flex;
+    padding: 0.5rem;
+    justify-content: space-between;
+  }
+}

@@ -1,7 +1,4 @@
-import {useState, useEffect } from "react"
-
-import { Bar, BarChart, CartesianGrid, XAxis } from "recharts"
-
+import Layout from "@components/Layout/index.tsx"
 import {
   ChartConfig,
   ChartContainer,
@@ -10,9 +7,10 @@ import {
   ChartTooltip,
   ChartTooltipContent,
 } from "@components/ui/chart.tsx"
-import Layout from "@components/Layout/index.tsx"
-import { getBlogData } from "../../api/blog.ts"
 import { CountPostsByMonth } from "@pedal-pedal/types"
+import { useEffect, useState } from "react"
+import { Bar, BarChart, CartesianGrid, XAxis } from "recharts"
+import { getBlogData } from "../../api/blog.ts"
 
 const chartConfig = {
   count: {
@@ -39,7 +37,7 @@ export function Component() {
   }
 
   return (
-    <ChartContainer config={chartConfig} className="min-h-[200px] w-full">
+    <ChartContainer config={chartConfig}>
       <BarChart accessibilityLayer data={chartData}>
         <CartesianGrid vertical={false} />
         <XAxis
@@ -47,7 +45,7 @@ export function Component() {
           tickLine={false}
           tickMargin={10}
           axisLine={false}
-          tickFormatter={(value) => value.slice(0, 3)}
+          tickFormatter={(value) => value.slice(0, 16)}
         />
         <ChartTooltip content={<ChartTooltipContent />} />
         <ChartLegend content={<ChartLegendContent />} />
@@ -57,7 +55,7 @@ export function Component() {
   )
 }
 
-export default function Blog() {
+export default function Analysis() {
   return (
     <Layout>
       <section className="chart">
