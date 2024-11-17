@@ -3,7 +3,7 @@ import { useEffect } from 'react'
 import { getBlogPosts } from '../../api/blog.ts'
 import { Helmet } from 'react-helmet'
 
-const Blog: React.FunctionComponent = () => {
+const Posts: React.FunctionComponent = () => {
   useEffect(() => {
     ;(async () => {
       const result = await getBlogPosts()
@@ -27,4 +27,4 @@ const Blog: React.FunctionComponent = () => {
   )
 }
 
-export default Blog
+export default Posts
