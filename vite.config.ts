@@ -1,3 +1,4 @@
+/// <reference lib="deno.ns" />
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 import { join } from "@std/path";
