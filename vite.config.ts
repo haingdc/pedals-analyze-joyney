@@ -1,12 +1,12 @@
 /// <reference lib="deno.ns" />
-import { defineConfig } from 'vite'
-import react from '@vitejs/plugin-react'
-import { join } from "@std/path";
+import { defineConfig } from "vite"
+import react from "@vitejs/plugin-react"
+import { join } from "@std/path"
 
 // https://vitejs.dev/config/
 export default defineConfig({
   plugins: [
-    react()
+    react(),
   ],
   server: {
     proxy: {
@@ -22,8 +22,5 @@ export default defineConfig({
       // "@/ui/": "./src/components/ui/",
       "@components": join(Deno.cwd(), "src/components"),
     },
-  },
-  optimizeDeps: {
-    include: ["react/jsx-runtime"],
   },
 })
