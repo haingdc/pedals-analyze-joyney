@@ -22,5 +22,8 @@ export default defineConfig({
       // "@/ui/": "./src/components/ui/",
       "@components": join(Deno.cwd(), "src/components"),
     },
-  }
+  },
+  optimizeDeps: {
+    include: ["react/jsx-runtime"],
+  },
 })
