@@ -1,6 +1,7 @@
 @import "tailwindcss/base" layer(my-base);
 @import "tailwindcss/components" layer(my-components);
 @import "tailwindcss/utilities" layer(my-utilities);
+@import "./utilities.css" layer(my-utilities);
 
 :root {
   font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
@@ -91,6 +92,7 @@ button:focus-visible {
     --chart-4: 43 74% 66%;
     --chart-5: 27 87% 67%;
     --radius: 0.5rem;
+    --outline-color: 217.4, 90.8%, 61.6%;
   }
 
   .dark {

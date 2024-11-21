@@ -1,5 +1,5 @@
-import type { ButtonProps } from "@components/ui/button.tsx"
-import { Button } from "@components/ui/button.tsx"
+import type { ButtonProps } from "@components/ui/button/index.tsx"
+import { Button } from "@components/ui/button/index.tsx"
 
 export interface ButtonIconProps extends ButtonProps {
   children: React.ReactNode,

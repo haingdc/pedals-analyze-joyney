@@ -3,9 +3,16 @@
     "dev": "deno run -A npm:vite --port 8080",
     "build": "vite build",
     "lint": "eslint .",
-    "preview": "vite preview --port 8080"
+    "preview": "vite preview --port 8080",
+    "esm:add": "deno run -A https://esm.sh/v135 add",
+    "esm:update": "deno run -A https://esm.sh/v135 update",
+    "esm:remove": "deno run -A https://esm.sh/v135 remove"
   },
   "imports": {
+    "react": "https://esm.sh/v135/react@18.3.1",
+    "react/": "https://esm.sh/v135/react@18.3.1/",
+    "react-dom": "https://esm.sh/v135/*react-dom@18.3.1",
+    "react-dom/": "https://esm.sh/v135/*react-dom@18.3.1/",
     "@/components/ui/button": "./src/components/ui/button.tsx",
     "@/lib/utils": "./src/lib/utils.ts",
     "@/ui/": "./src/components/ui/",
@@ -17,9 +24,18 @@
   },
   "nodeModulesDir": "auto",
   "compilerOptions": {
-    "jsx": "react-jsx"
+    "jsx": "react-jsx",
+    "lib": [
+      "dom"
+    ]
   },
   "fmt": {
     "semiColons": false
+  },
+  "scopes": {
+    "https://esm.sh/v135/": {
+      "loose-envify": "https://esm.sh/v135/loose-envify@1.4.0",
+      "scheduler": "https://esm.sh/v135/scheduler@0.23.2"
+    }
   }
 }

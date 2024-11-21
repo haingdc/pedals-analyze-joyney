@@ -1,0 +1,9 @@
+.tuy-bien-focus-visible-input {
+  &:has(.input:focus-visible) {
+    outline: 2px solid hsla(var(--outline-color));
+  }
+}
+
+.tuy-bien-focus-visible:focus-visible {
+  outline: 2px solid hsla(var(--outline-color));
+}

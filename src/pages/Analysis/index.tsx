@@ -20,7 +20,7 @@ const chartConfig = {
 } satisfies ChartConfig
 
 export function Component() {
-  const [chartData, setChartData] = useState<CountPostsByMonth>(null)
+  const [chartData, setChartData] = useState<CountPostsByMonth | null>(null)
   useEffect(() => {
     ;(async () => {
       const result = await getBlogData()
@@ -37,7 +37,7 @@ export function Component() {
   }
 
   return (
-    <ChartContainer config={chartConfig}>
+    <ChartContainer config={chartConfig} tabIndex={-1}>
       <BarChart accessibilityLayer data={chartData}>
         <CartesianGrid vertical={false} />
         <XAxis

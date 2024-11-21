@@ -1,0 +1,94 @@
+@layer my-components {
+  .app-header-home {
+    display: flex;
+    padding: 0.5rem;
+  }
+  .header-input {
+    /*
+     * Hi vọng tôi convert đúng từ tailwind, nhìn nó cũng rối rối vì có một mớ class
+     * flex h-9 w-full rounded-md border border-input bg-transparent px-3 py-1 text-base shadow-sm transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium file:text-foreground placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50 md:text-sm
+     */
+    @apply shadow-sm transition-colors;
+    border: 1px solid #ccc;
+    height: 2.25rem;
+    width: 100%;
+    border-radius: 0.375rem;
+    border: 1px solid hsl(var(--input));
+    background: transparent;
+    padding: 0.25rem 0.75rem;
+    font-size: 1rem;
+    line-height: 1.5rem;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+    transition: background-color 0.2s, border-color 0.2s;
+
+    /* Chưa biết là gì, cứ dựa theo tailwind class trước */
+    &::file {
+      border: 0;
+      background: transparent;
+      font-size: 0.875rem;
+      line-height: 1.25rem;
+      font-weight: 500;
+      color: hsl(var(--foreground));
+    }
+
+    &::placeholder {
+      color: hsl(var(--muted-foreground));
+    }
+
+    &:disabled {
+      cursor: not-allowed;
+      opacity: 0.5;
+    }
+
+    .input-wrapper {
+      display: flex;
+    }
+
+    .input {
+      flex: 1;
+      background-color: hsl(var(--background));
+      &:focus-visible {
+        outline: none;
+      }
+    }
+  }
+
+  @media (min-width: 768px) {
+    .header-input {
+      font-size: 0.875rem;
+      line-height: 1.25rem;
+    }
+  }
+}
+
+@layer my-components {
+  .autocomplete {
+    position: relative;
+  }
+  .autocomplete-items {
+    position: absolute;
+    border: 1px solid #d4d4d4;
+    border-bottom: none;
+    border-top: none;
+    z-index: 99;
+    top: 100%;
+    left: 0;
+    right: 0;
+  }
+  .autocomplete-items div {
+    padding: 10px;
+    cursor: pointer;
+    background-color: #fff;
+    border-bottom: 1px solid #d4d4d4;
+  }
+  /*when hovering an item:*/
+  .autocomplete-items div:hover {
+    background-color: #e9e9e9;
+  }
+
+  /*when navigating through the items using the arrow keys:*/
+  .autocomplete-active {
+    background-color: DodgerBlue !important;
+    color: #ffffff;
+  }
+}
