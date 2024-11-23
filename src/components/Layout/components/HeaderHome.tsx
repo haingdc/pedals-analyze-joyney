@@ -75,6 +75,7 @@ function HeaderHome() {
       setInputValue(results[newIndex].item.keyword)
       inputRef.current.focus()
       setResult([])
+      navigate(results[newIndex].item.to)
     }
   }
 
