@@ -11,10 +11,9 @@ globalThis.onload = function () {
       (!('theme' in localStorage) &&
         globalThis.matchMedia('(prefers-color-scheme: dark)').matches)
   )
+  createRoot(document.getElementById('root')!).render(
+    <StrictMode>
+      <App />
+    </StrictMode>
+  )
 }
-
-createRoot(document.getElementById('root')!).render(
-  <StrictMode>
-    <App />
-  </StrictMode>
-)

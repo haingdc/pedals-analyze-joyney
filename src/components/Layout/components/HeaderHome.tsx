@@ -1,10 +1,11 @@
-import { useState, useRef } from 'react'
+import { cn } from '@/lib/utils'
 import { useConfigDispatch } from '@components/App/Config/utils.tsx'
 import '@components/Layout/components/HeaderHome.css'
 import { HamburgerMenuIcon } from '@radix-ui/react-icons'
 import Fuse, { type FuseResult } from 'fuse.js'
-import { cn } from "@/lib/utils"
-import { useNavigate } from "react-router-dom";
+import { useMemo, useRef, useState } from 'react'
+import { useNavigate } from 'react-router-dom'
+import { back, forward } from './back-forward-autocomplete.ts'
 
 const list = [
   { keyword: '@home', type: 'page', to: '/' },
@@ -16,51 +17,70 @@ const list = [
 
 function HeaderHome() {
   const dispatch = useConfigDispatch()
-  const [inputValue, setInputValue] = useState('')
-  const [focusIndex, setFocusIndex] = useState(-1)
-  const [results, setResult] = useState<FuseResult<{
-    keyword: string,
-    type: string,
-    to: string
-  }>[]>([])
+  const [autoComplete, setAutoComplete] = useState({
+    inputValue: '',
+    focusIndex: -1,
+    results: [] as FuseResult<{
+      keyword: string
+      type: string
+      to: string
+    }>[],
+  })
   const inputRef = useRef<HTMLInputElement>(null)
-  const navigate = useNavigate();
+  const navigate = useNavigate()
+  const [hidden, setHidden] = useState(false)
+
+  const fuse = useMemo(
+    () => new Fuse(list, { keys: ['keyword'], includeScore: true }),
+    []
+  )
+  const { inputValue, focusIndex, results } = autoComplete
 
   const handleInput = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value
-    setInputValue(value)
-    if (!value.trim()) {
-      setResult([])
-      return
-    }
-    const fuse = new Fuse(list, {
-      keys: ['keyword'],
-      includeScore: true,
-    })
-    const result = fuse.search(value.trim())
-    console.log('inspect.result' , result)
-
-    setResult(result)
+    setAutoComplete((prev) => ({
+      ...prev,
+      inputValue: value,
+      results: fuse.search(value.trim()),
+    }))
   }
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === 'ArrowDown') {
-      setFocusIndex((prevIndex) => prevIndex + 1)
+      e.preventDefault()
+      setAutoComplete((prev) => {
+        const focusIndex = forward(prev.focusIndex, prev.results)
+        const inputValue = prev.results[focusIndex].item.keyword
+        return {
+          ...prev,
+          focusIndex,
+          inputValue,
+        }
+      })
     } else if (e.key === 'ArrowUp') {
-      setFocusIndex((prevIndex) => prevIndex - 1)
+      e.preventDefault()
+      setAutoComplete((prev) => {
+        const focusIndex = back(prev.focusIndex, prev.results)
+        const inputValue = prev.results[focusIndex].item.keyword
+        return {
+          ...prev,
+          focusIndex,
+          inputValue,
+        }
+      })
     } else if (e.key === 'Enter') {
+      e.preventDefault()
       if (!inputRef.current) {
         return
       }
-      e.preventDefault()
-      if (focusIndex > -1) {
-        setInputValue(results[focusIndex].item.keyword)
-        setFocusIndex(-1)
+      const { focusIndex } = autoComplete
+      if (focusIndex > -1 && focusIndex < autoComplete.results.length) {
         inputRef.current.focus()
-        setResult([])
-        console.log('inspect.focusIndex', { focusIndex, item: results[focusIndex].item })
-        navigate(results[focusIndex].item.to)
+        setHidden(true)
+        navigate(autoComplete.results[focusIndex].item.to)
       }
+    } else if (e.key === 'Escape') {
+      setHidden(true)
     }
   }
   const handleClick = (e: React.MouseEvent<HTMLDivElement>) => {
@@ -68,15 +88,28 @@ function HeaderHome() {
     if (!inputRef.current) {
       return
     }
-    if (e.target instanceof HTMLDivElement && e.target.classList.contains('autocomplete-item')) {
+    if (
+      e.target instanceof HTMLDivElement &&
+      e.target.classList.contains('autocomplete-item')
+    ) {
       console.log('inspect.index', e.target.dataset.index)
       const newIndex = parseInt(e.target.dataset.index as string)
-      setFocusIndex(-1)
-      setInputValue(results[newIndex].item.keyword)
+      const newInputValue = results[newIndex].item.keyword
+      setAutoComplete((prev) => {
+        return {
+          ...prev,
+          inputValue: newInputValue,
+          focusIndex: newIndex,
+        }
+      })
       inputRef.current.focus()
-      setResult([])
+      setHidden(true)
       navigate(results[newIndex].item.to)
     }
+  }
+  const handleFocus = (e: React.FocusEvent<HTMLInputElement>) => {
+    e.preventDefault()
+    setHidden(false)
   }
 
   return (
@@ -88,9 +121,10 @@ function HeaderHome() {
             type='text'
             placeholder='Tìm kiếm...'
             className='input'
-            value={inputValue}
+            value={autoComplete.inputValue}
             onKeyDown={handleKeyDown}
             onChange={handleInput}
+            onFocus={handleFocus}
           />
           <button
             className='end-adornment tuy-bien-focus-visible'
@@ -101,12 +135,18 @@ function HeaderHome() {
         </div>
 
         {results.length > 0 && (
-          <div id='myInputautocomplete-list' className='autocomplete-items'>
+          <div className={cn('autocomplete-items', { hidden })}>
+            {results.length && <div className='line' />}
             {results.map((res, index) => {
               return (
                 <div
                   key={res.item.keyword}
-                  className={cn('autocomplete-item', index === focusIndex ? 'autocomplete-active' : '')}
+                  className={cn(
+                    'autocomplete-item',
+                    index === autoComplete.focusIndex
+                      ? 'autocomplete-active'
+                      : ''
+                  )}
                   data-index={index}
                   onClick={handleClick}
                 >
