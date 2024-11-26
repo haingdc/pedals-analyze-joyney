@@ -2,8 +2,8 @@ import { cn } from '@/lib/utils'
 import { useConfigDispatch } from '@components/App/Config/utils.tsx'
 import '@components/Layout/components/HeaderHome.css'
 import { HamburgerMenuIcon } from '@radix-ui/react-icons'
-import Fuse, { type FuseResult } from 'fuse.js'
-import { useMemo, useRef, useState } from 'react'
+import { type FuseResult } from 'fuse.js'
+import { useRef, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { back, forward } from './back-forward-autocomplete.ts'
 
@@ -30,19 +30,23 @@ function HeaderHome() {
   const navigate = useNavigate()
   const [hidden, setHidden] = useState(false)
 
-  const fuse = useMemo(
-    () => new Fuse(list, { keys: ['keyword'], includeScore: true }),
-    []
-  )
   const { inputValue, focusIndex, results } = autoComplete
 
-  const handleInput = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleInput = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value
-    setAutoComplete((prev) => ({
-      ...prev,
-      inputValue: value,
-      results: fuse.search(value.trim()),
-    }))
+    /**
+     * lazy load fuse.js
+     * @see https://nextjs.org/docs/pages/building-your-application/optimizing/lazy-loading#with-external-libraries
+     **/
+    const Fuse = (await import('fuse.js')).default
+    const fuse = new Fuse(list, { keys: ['keyword'], includeScore: true })
+    setAutoComplete((prev) => {
+      return {
+        ...prev,
+        inputValue: value,
+        results: fuse.search(value.trim()),
+      }
+    })
   }
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
@@ -121,7 +125,7 @@ function HeaderHome() {
             type='text'
             placeholder='Tìm kiếm...'
             className='input'
-            value={autoComplete.inputValue}
+            value={inputValue}
             onKeyDown={handleKeyDown}
             onChange={handleInput}
             onFocus={handleFocus}
@@ -143,7 +147,7 @@ function HeaderHome() {
                   key={res.item.keyword}
                   className={cn(
                     'autocomplete-item',
-                    index === autoComplete.focusIndex
+                    index === focusIndex
                       ? 'autocomplete-active'
                       : ''
                   )}
