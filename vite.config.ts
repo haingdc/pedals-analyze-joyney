@@ -1,6 +1,6 @@
 /// <reference lib="deno.ns" />
 // import { defineConfig } from "vite"
-import { defineConfig, type UserConfig } from 'vitest/config';
+import { defineConfig, type UserConfig } from "vitest/config"
 import react from "@vitejs/plugin-react"
 import { join } from "@std/path"
 
@@ -25,8 +25,8 @@ export default defineConfig({
     },
   },
   test: {
-    environment: 'jsdom',
+    environment: "jsdom",
     globals: true,
-    setupFiles: './tests/setup.ts',
-  }
+    setupFiles: "./tests/setup.ts",
+  },
 })

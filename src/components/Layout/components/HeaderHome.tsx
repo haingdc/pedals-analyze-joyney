@@ -1,24 +1,24 @@
-import { cn } from '@/lib/utils'
-import { useConfigDispatch } from '@components/App/Config/utils.tsx'
-import '@components/Layout/components/HeaderHome.css'
-import { HamburgerMenuIcon } from '@radix-ui/react-icons'
-import { type FuseResult } from 'fuse.js'
-import { useRef, useState } from 'react'
-import { useNavigate } from 'react-router-dom'
-import { back, forward } from './back-forward-autocomplete.ts'
+import { cn } from "@/lib/utils"
+import { useConfigDispatch } from "@components/App/Config/utils.tsx"
+import "@components/Layout/components/HeaderHome.css"
+import { HamburgerMenuIcon } from "@radix-ui/react-icons"
+import { type FuseResult } from "fuse.js"
+import { useRef, useState } from "react"
+import { useNavigate } from "react-router-dom"
+import { back, forward } from "./back-forward-autocomplete.ts"
 
 const list = [
-  { keyword: '@home', type: 'page', to: '/' },
-  { keyword: '@blog', type: 'page', to: '/blog' },
-  { keyword: '@package-analysis', type: 'page', to: '/package-analysis' },
-  { keyword: '@analytics', type: 'page', to: '/analytics' },
-  { keyword: '@deploy', type: 'page', to: '/deploy' },
+  { keyword: "@home", type: "page", to: "/" },
+  { keyword: "@blog", type: "page", to: "/blog" },
+  { keyword: "@package-analysis", type: "page", to: "/package-analysis" },
+  { keyword: "@analytics", type: "page", to: "/analytics" },
+  { keyword: "@deploy", type: "page", to: "/deploy" },
 ]
 
 function HeaderHome() {
   const dispatch = useConfigDispatch()
   const [autoComplete, setAutoComplete] = useState({
-    inputValue: '',
+    inputValue: "",
     focusIndex: -1,
     results: [] as FuseResult<{
       keyword: string
@@ -37,9 +37,9 @@ function HeaderHome() {
     /**
      * lazy load fuse.js
      * @see https://nextjs.org/docs/pages/building-your-application/optimizing/lazy-loading#with-external-libraries
-     **/
-    const Fuse = (await import('fuse.js')).default
-    const fuse = new Fuse(list, { keys: ['keyword'], includeScore: true })
+     */
+    const Fuse = (await import("fuse.js")).default
+    const fuse = new Fuse(list, { keys: ["keyword"], includeScore: true })
     setAutoComplete((prev) => {
       return {
         ...prev,
@@ -50,7 +50,7 @@ function HeaderHome() {
   }
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === 'ArrowDown') {
+    if (e.key === "ArrowDown") {
       e.preventDefault()
       setAutoComplete((prev) => {
         const focusIndex = forward(prev.focusIndex, prev.results)
@@ -61,7 +61,7 @@ function HeaderHome() {
           inputValue,
         }
       })
-    } else if (e.key === 'ArrowUp') {
+    } else if (e.key === "ArrowUp") {
       e.preventDefault()
       setAutoComplete((prev) => {
         const focusIndex = back(prev.focusIndex, prev.results)
@@ -72,7 +72,7 @@ function HeaderHome() {
           inputValue,
         }
       })
-    } else if (e.key === 'Enter') {
+    } else if (e.key === "Enter") {
       e.preventDefault()
       if (!inputRef.current) {
         return
@@ -83,20 +83,20 @@ function HeaderHome() {
         setHidden(true)
         navigate(autoComplete.results[focusIndex].item.to)
       }
-    } else if (e.key === 'Escape') {
+    } else if (e.key === "Escape") {
       setHidden(true)
     }
   }
   const handleClick = (e: React.MouseEvent<HTMLDivElement>) => {
-    console.log('inspect.click', e.target)
+    console.log("inspect.click", e.target)
     if (!inputRef.current) {
       return
     }
     if (
       e.target instanceof HTMLDivElement &&
-      e.target.classList.contains('autocomplete-item')
+      e.target.classList.contains("autocomplete-item")
     ) {
-      console.log('inspect.index', e.target.dataset.index)
+      console.log("inspect.index", e.target.dataset.index)
       const newIndex = parseInt(e.target.dataset.index as string)
       const newInputValue = results[newIndex].item.keyword
       setAutoComplete((prev) => {
@@ -117,45 +117,47 @@ function HeaderHome() {
   }
 
   return (
-    <header className='app-header-home'>
-      <div className='header-input tuy-bien-focus-visible-input autocomplete'>
-        <div className='input-wrapper'>
+    <header className="app-header-home">
+      <div className="header-input tuy-bien-focus-visible-input autocomplete">
+        <div className="input-wrapper">
           <input
             ref={inputRef}
-            type='text'
-            placeholder='Tìm kiếm...'
-            className='input'
+            type="text"
+            placeholder="Tìm kiếm..."
+            className="input"
             value={inputValue}
             onKeyDown={handleKeyDown}
             onChange={handleInput}
             onFocus={handleFocus}
           />
           <button
-            className='end-adornment tuy-bien-focus-visible'
-            onClick={() => dispatch({ type: 'toggle' })}
+            className="end-adornment tuy-bien-focus-visible"
+            onClick={() => dispatch({ type: "toggle" })}
           >
             <HamburgerMenuIcon />
           </button>
         </div>
 
         {results.length > 0 && (
-          <div className={cn('autocomplete-items', { hidden })}>
-            {results.length && <div className='line' />}
+          <div className={cn("autocomplete-items", { hidden })}>
+            {results.length && <div className="line" />}
             {results.map((res, index) => {
               return (
                 <div
                   key={res.item.keyword}
                   className={cn(
-                    'autocomplete-item',
-                    index === focusIndex
-                      ? 'autocomplete-active'
-                      : ''
+                    "autocomplete-item",
+                    index === focusIndex ? "autocomplete-active" : "",
                   )}
                   data-index={index}
                   onClick={handleClick}
                 >
                   {res.item.keyword}
-                  <input type='hidden' value={res.item.keyword} />
+                  <input
+                    type="hidden"
+                    value={res.item.keyword}
+                    autoComplete="off"
+                  />
                 </div>
               )
             })}

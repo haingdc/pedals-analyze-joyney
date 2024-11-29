@@ -1,4 +1,4 @@
-import React, { createContext } from 'react'
+import React, { createContext } from "react"
 
 interface ConfigContextType {
   /* Toggle the Menu by hamburger button */
@@ -7,8 +7,9 @@ interface ConfigContextType {
 
 export const ConfigContext = createContext<ConfigContextType | null>(null)
 
-export const ConfigDispatchContext =
-  createContext<React.Dispatch<ACTIONTYPE_Config> | null>(null)
+export const ConfigDispatchContext = createContext<
+  React.Dispatch<ACTIONTYPE_Config> | null
+>(null)
 
 export const ConfigProvider: React.FunctionComponent<
   React.PropsWithChildren
@@ -27,16 +28,16 @@ export default ConfigProvider
 
 const initialState = { isOpen: false }
 
-type ACTIONTYPE_Config = { type: 'toggle' } | { type: 'hide' }
+type ACTIONTYPE_Config = { type: "toggle" } | { type: "hide" }
 
 function configureReducer(
   state: typeof initialState,
-  action: ACTIONTYPE_Config
+  action: ACTIONTYPE_Config,
 ) {
   switch (action.type) {
-    case 'toggle':
+    case "toggle":
       return { ...state, isOpen: !state.isOpen }
-    case 'hide':
+    case "hide":
       return { ...state, isOpen: false }
     default:
       throw new Error()

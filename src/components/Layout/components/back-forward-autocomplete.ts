@@ -50,4 +50,4 @@ function forward(prevIndex: number, results: FuseResult<{
   return nextIndex
 }
 
-export { type FuseResultType, back, forward }
+export { back, forward, type FuseResultType }

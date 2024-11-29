@@ -18,13 +18,14 @@
     "react/": "npm:react@18.3.1/",
     "react-dom": "npm:react-dom@18.3.1",
     "react-dom/": "npm:react-dom@18.3.1/",
+    "@/": "./src/",
     "@/components/ui/button": "./src/components/ui/button.tsx",
     "@/lib/utils": "./src/lib/utils.ts",
     "@/ui/": "./src/components/ui/",
     "@components/": "./src/components/",
     "@pedal-pedal/types": "jsr:@pedal-pedal/types@^0.1.1",
     "@std/dotenv": "jsr:@std/dotenv@^0.225.2",
-    "@std/path": "jsr:@std/path@^1.0.6",
+    "@std/path": "jsr:@std/path@^1.0.8",
     "@tajpouria/cors": "jsr:@tajpouria/cors@^1.2.1"
   },
   "nodeModulesDir": "auto",
@@ -34,8 +35,14 @@
       "dom"
     ]
   },
+  "lint": {
+    "include": ["src/**/*.ts", "src/**/*.tsx"],
+    "rules": {
+    }
+  },
   "fmt": {
-    "semiColons": false
+    "semiColons": false,
+    "include": ["src/"]
   },
   "scopes": {
     "https://esm.sh/v135/": {

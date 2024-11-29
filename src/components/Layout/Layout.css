@@ -18,15 +18,15 @@
   padding: 20px;
 }
 
-
-
 @layer my-components {
   .footer {
     padding: 0.5rem;
     text-align: center;
     .content {
-      background-color: #f4f4f4;
       padding: 1rem 0;
+      p {
+        color: hsl(var(--text-primary));
+      }
     }
   }
 }
